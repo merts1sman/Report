@@ -65,8 +65,10 @@
             const password = document.getElementById('password').value;
             
             if (username === "admin1" && password === "123456") {
+                localStorage.setItem("loggedInUser", username);
                 window.location.href = "admin_panel.html";
             } else {
+                localStorage.setItem("loggedInUser", username);
                 window.location.href = "embed_page.html";
             }
         }
