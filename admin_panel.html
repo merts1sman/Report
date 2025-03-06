@@ -41,6 +41,16 @@
     </style>
 </head>
 <body>
+    <script>
+        function checkLogin() {
+            const loggedInUser = localStorage.getItem("loggedInUser");
+            if (!loggedInUser) {
+                alert("Yetkisiz giriş! Lütfen önce giriş yapın.");
+                window.location.href = "index.html";
+            }
+        }
+        checkLogin();
+    </script>
     <div class="container">
         <h2>Admin Paneli</h2>
         <input type="text" id="newUsername" placeholder="Yeni Kullanıcı Adı">
