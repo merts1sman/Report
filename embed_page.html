@@ -20,6 +20,16 @@
     </style>
 </head>
 <body>
+    <script>
+        function checkLogin() {
+            const loggedInUser = localStorage.getItem("loggedInUser");
+            if (!loggedInUser) {
+                alert("Yetkisiz giriş! Lütfen önce giriş yapın.");
+                window.location.href = "index.html";
+            }
+        }
+        checkLogin();
+    </script>
     <iframe src="https://app.powerbi.com/view?r=eyJrIjoiZTRlYjNiYWMtMmQyYy00ZGY5LTk4ZTYtOTJlZDQ2NTIzYTAzIiwidCI6IjdhYmFhN2ZkLTQzNDMtNDJhOS04YjE5LWJkMWE4ZTUxNzhiZSIsImMiOjl9&pageName=571fe66f20b5eaa8db83"></iframe>
 </body>
 </html>
