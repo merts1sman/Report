@@ -60,13 +60,7 @@
     </div>
     
     <script>
-        const users = [
-            { username: "mert@firmamentum.com.tr", password: "Tekn0sa1" },
-            { username: "fatih.sengul@electrolux.com", password: "Kc3Zw8Gr" },
-            { username: "okan.kabakci@electrolux.com", password: "Rh5Lb5Nl" },
-            { username: "huseyin.sur@electrolux.com", password: "Aw7Tr8Kg" },
-            { username: "fatih.irmak@electrolux.com", password: "Lk6Ml6Mh" }
-        ];
+        const users = JSON.parse(localStorage.getItem("userList")) || [];
 
         function login() {
             const username = document.getElementById('username').value;
@@ -85,6 +79,18 @@
                 }
             }
         }
+
+        function fetchUsersFromExcel() {
+            fetch('user_list.json')
+                .then(response => response.json())
+                .then(data => {
+                    localStorage.setItem("userList", JSON.stringify(data));
+                    console.log("Kullanıcı listesi güncellendi.");
+                })
+                .catch(error => console.error("Kullanıcı listesi yüklenemedi", error));
+        }
+
+        fetchUsersFromExcel();
     </script>
 </body>
 </html>
