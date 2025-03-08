@@ -21,6 +21,7 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            width: 400px;
         }
         input, button {
             display: block;
@@ -28,22 +29,12 @@
             padding: 10px;
             width: 100%;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
     </style>
 </head>
 <body>
     <script>
         function checkLogin() {
-            const loggedInUser = localStorage.getItem("loggedInUser");
+            const loggedInUser = sessionStorage.getItem("loggedInUser");
             if (!loggedInUser) {
                 alert("Yetkisiz giriş! Lütfen önce giriş yapın.");
                 window.location.href = "index.html";
@@ -51,56 +42,22 @@
         }
         checkLogin();
     </script>
+    
     <div class="container">
         <h2>Admin Paneli</h2>
-        <input type="text" id="newUsername" placeholder="Yeni Kullanıcı Adı">
-        <input type="password" id="newPassword" placeholder="Yeni Şifre">
-        <button onclick="addUser()">Kullanıcı Ekle</button>
-        <table>
-            <thead>
-                <tr>
-                    <th>Kullanıcı Adı</th>
-                    <th>Şifre</th>
-                    <th>Sil</th>
-                </tr>
-            </thead>
-            <tbody id="userTable"></tbody>
-        </table>
+        <h3>Embed Linkini Güncelle</h3>
+        <input type="text" id="embedLink" placeholder="Yeni Embed Linkini Gir">
+        <button onclick="updateEmbedLink()">Güncelle</button>
     </div>
     
     <script>
-        let users = JSON.parse(localStorage.getItem("users")) || [{ username: "admin", password: "1234" }];
-
-        function addUser() {
-            const newUsername = document.getElementById('newUsername').value;
-            const newPassword = document.getElementById('newPassword').value;
-            
-            if (newUsername && newPassword) {
-                users.push({ username: newUsername, password: newPassword });
-                localStorage.setItem("users", JSON.stringify(users));
-                updateUserTable();
+        function updateEmbedLink() {
+            const newLink = document.getElementById('embedLink').value;
+            if (newLink) {
+                localStorage.setItem("embedLink", newLink);
+                alert("Embed linki güncellendi!");
             }
         }
-
-        function deleteUser(index) {
-            users.splice(index, 1);
-            localStorage.setItem("users", JSON.stringify(users));
-            updateUserTable();
-        }
-
-        function updateUserTable() {
-            const userTable = document.getElementById('userTable');
-            userTable.innerHTML = "";
-            users.forEach((user, index) => {
-                userTable.innerHTML += `<tr>
-                    <td>${user.username}</td>
-                    <td>${user.password}</td>
-                    <td><button onclick="deleteUser(${index})">Sil</button></td>
-                </tr>`;
-            });
-        }
-
-        updateUserTable();
     </script>
 </body>
 </html>
