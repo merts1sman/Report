@@ -60,16 +60,29 @@
     </div>
     
     <script>
+        const users = [
+            { username: "mert@firmamentum.com.tr", password: "Tekn0sa1" },
+            { username: "fatih.sengul@electrolux.com", password: "Kc3Zw8Gr" },
+            { username: "okan.kabakci@electrolux.com", password: "Rh5Lb5Nl" },
+            { username: "huseyin.sur@electrolux.com", password: "Aw7Tr8Kg" },
+            { username: "fatih.irmak@electrolux.com", password: "Lk6Ml6Mh" }
+        ];
+
         function login() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
-            if (username === "admin1" && password === "123456") {
-                localStorage.setItem("loggedInUser", username);
+            if (username === "admin" && password === "Mentum:77") {
+                sessionStorage.setItem("loggedInUser", username);
                 window.location.href = "admin_panel.html";
             } else {
-                localStorage.setItem("loggedInUser", username);
-                window.location.href = "embed_page.html";
+                const user = users.find(user => user.username === username && user.password === password);
+                if (user) {
+                    sessionStorage.setItem("loggedInUser", username);
+                    window.location.href = "embed_page.html";
+                } else {
+                    document.getElementById('error').innerText = "Geçersiz kullanıcı adı veya şifre!";
+                }
             }
         }
     </script>
