@@ -12,11 +12,11 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-color: #f4f4f4;
+            background: url('image2.png') no-repeat center center/cover;
             margin: 0;
         }
         .container {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -28,6 +28,16 @@
             margin: 10px auto;
             padding: 10px;
             width: 100%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
         }
     </style>
 </head>
@@ -45,19 +55,73 @@
     
     <div class="container">
         <h2>Admin Paneli</h2>
+        <h3>Mevcut Embed Link:</h3>
+        <p id="currentEmbedLink"></p>
         <h3>Embed Linkini Güncelle</h3>
         <input type="text" id="embedLink" placeholder="Yeni Embed Linkini Gir">
         <button onclick="updateEmbedLink()">Güncelle</button>
+        
+        <h3>Kayıtlı Kullanıcılar</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Kullanıcı Adı</th>
+                    <th>Şifre</th>
+                    <th>Sil</th>
+                </tr>
+            </thead>
+            <tbody id="userTable"></tbody>
+        </table>
+        
+        <h3>Yeni Kullanıcı Ekle</h3>
+        <input type="text" id="newUsername" placeholder="Yeni Kullanıcı Adı">
+        <input type="password" id="newPassword" placeholder="Yeni Şifre">
+        <button onclick="addUser()">Ekle</button>
     </div>
     
     <script>
+        let users = JSON.parse(localStorage.getItem("userList")) || [];
+        let embedLink = localStorage.getItem("embedLink") || "";
+        document.getElementById("currentEmbedLink").innerText = embedLink;
+
         function updateEmbedLink() {
             const newLink = document.getElementById('embedLink').value;
             if (newLink) {
                 localStorage.setItem("embedLink", newLink);
+                document.getElementById("currentEmbedLink").innerText = newLink;
                 alert("Embed linki güncellendi!");
             }
         }
+
+        function addUser() {
+            const newUsername = document.getElementById('newUsername').value;
+            const newPassword = document.getElementById('newPassword').value;
+            if (newUsername && newPassword) {
+                users.push({ username: newUsername, password: newPassword });
+                localStorage.setItem("userList", JSON.stringify(users));
+                updateUserTable();
+            }
+        }
+
+        function deleteUser(index) {
+            users.splice(index, 1);
+            localStorage.setItem("userList", JSON.stringify(users));
+            updateUserTable();
+        }
+
+        function updateUserTable() {
+            const userTable = document.getElementById('userTable');
+            userTable.innerHTML = "";
+            users.forEach((user, index) => {
+                userTable.innerHTML += `<tr>
+                    <td>${user.username}</td>
+                    <td>${user.password}</td>
+                    <td><button onclick="deleteUser(${index})">Sil</button></td>
+                </tr>`;
+            });
+        }
+
+        updateUserTable();
     </script>
 </body>
 </html>
